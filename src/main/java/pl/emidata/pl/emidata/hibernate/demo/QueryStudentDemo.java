@@ -5,8 +5,13 @@ import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 import pl.emidata.hibernate.demo.entity.Student;
 
-public class PrimaryKeyDemo {
+import java.util.List;
+
+
+public class QueryStudentDemo {
+
     public static void main(String[] args) {
+
         // create session factory
         SessionFactory factory = new Configuration().configure("hibernate.cfg.xml")
                 .addAnnotatedClass(Student.class)
@@ -16,28 +21,28 @@ public class PrimaryKeyDemo {
         Session session = factory.getCurrentSession();
 
         try {
-            //create 3 student objects
-            System.out.println("Creating 3 student objects...");
-            Student tempStudent1 = new Student("Paul", "Wall", "paul@test.com");
-            Student tempStudent2 = new Student("Mary", "Wall", "paulmary@test.com");
-            Student tempStudent3 = new Student("Bonita", "Wall", "paulita@test.com");
-            //start a transaction
+            // start a transaction
             session.beginTransaction();
 
-            //save the student object
-            System.out.println("Saving the student");
-            session.save(tempStudent1);
-            session.save(tempStudent2);
-            session.save(tempStudent3);
+
+            // query students
+            List<Student> theStudents = session.createQuery("from Student").list();
+
+            //display the students
+            for (Student tempStudent : theStudents) {
+                System.out.println(tempStudent);
+            }
 
             //commit transaction
             session.getTransaction().commit();
             System.out.println("Done");
 
-        }finally {
+
+        } finally {
             factory.close();
         }
 
     }
+
 
 }

@@ -1,4 +1,4 @@
-package pl.emidata.pl.emidata.hibernate.demo;
+package pl.emidata.hibernate.demo;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -6,7 +6,7 @@ import org.hibernate.cfg.Configuration;
 import pl.emidata.hibernate.demo.entity.Student;
 
 
-public class DeleteStudentDemo {
+public class UpdateStudentDemo {
 
     public static void main(String[] args) {
 
@@ -30,16 +30,31 @@ public class DeleteStudentDemo {
 
             Student myStudent = session.get(Student.class, studentId);
 
-            // delete the student
-            System.out.println("Deleting student: " + myStudent);
-            session.delete(myStudent);
+            System.out.println("Updating student...");
+            myStudent.setFirstName("Scooby");
+
+            // commit
+            session.getTransaction().commit();
+
+
+            session = factory.getCurrentSession();
+            session.beginTransaction();
+
+            // update email for all students
+            System.out.println("Update email for all students");
+
+            session.createQuery("update Student set email='foo@gmail.com'").executeUpdate();
 
 
             // commit
             session.getTransaction().commit();
+
             System.out.println("Done!");
         } finally {
             factory.close();
         }
+
     }
+
+
 }

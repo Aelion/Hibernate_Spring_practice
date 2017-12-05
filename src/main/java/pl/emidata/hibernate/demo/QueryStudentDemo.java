@@ -1,4 +1,4 @@
-package pl.emidata.pl.emidata.hibernate.demo;
+package pl.emidata.hibernate.demo;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
